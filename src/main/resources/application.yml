@@ -1,0 +1,23 @@
+spring:
+  aop:
+    #auto: true
+    auto: false
+  application:
+    name: OpenSchoolAOP
+  datasource:
+    url: jdbc:postgresql://localhost:5435/openschoolaop
+    username: postgres
+    password: postgres
+    driverClassName: org.postgresql.Driver
+  liquibase:
+    enabled: false
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+
+asynchronous:
+  enabled: false
+  #enabled: true
