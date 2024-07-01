@@ -1,7 +1,7 @@
 spring:
   aop:
-    #auto: true
-    auto: false
+    auto: true
+    #auto: false
   application:
     name: OpenSchoolAOP
   datasource:
@@ -19,5 +19,5 @@ spring:
         dialect: org.hibernate.dialect.PostgreSQLDialect
 
 asynchronous:
-  enabled: false
-  #enabled: true
+  #enabled: false
+  enabled: true
