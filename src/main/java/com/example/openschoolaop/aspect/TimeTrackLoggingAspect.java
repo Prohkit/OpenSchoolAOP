@@ -1,5 +1,6 @@
 package com.example.openschoolaop.aspect;
 
+import com.example.openschoolaop.model.dto.AddMethodExecutionTimeInfoDto;
 import com.example.openschoolaop.service.TimeTrackLoggingService;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -11,6 +12,8 @@ import org.springframework.stereotype.Component;
 
 import java.time.Duration;
 import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.util.concurrent.CompletableFuture;
 
 @Slf4j
@@ -53,11 +56,18 @@ public class TimeTrackLoggingAspect {
     private Object trackTime(ProceedingJoinPoint joinPoint) {
         try {
             String methodName = joinPoint.getSignature().getName();
+            String className = joinPoint.getSignature().getDeclaringType().getSimpleName();
+
             Instant start = Instant.now();
             Object object = joinPoint.proceed();
             Instant finish = Instant.now();
+
             long timeElapsed = Duration.between(start, finish).toMillis();
-            timeTrackLoggingService.saveExecutionTime(methodName, timeElapsed);
+            LocalDateTime startedAt = LocalDateTime.ofInstant(start, ZoneOffset.UTC);
+            LocalDateTime finishedAt = LocalDateTime.ofInstant(finish, ZoneOffset.UTC);
+            AddMethodExecutionTimeInfoDto timeInfoDto =
+                    new AddMethodExecutionTimeInfoDto(className, methodName, timeElapsed, startedAt, finishedAt);
+            timeTrackLoggingService.saveExecutionTime(timeInfoDto);
             return object;
         } catch (Throwable e) {
             log.error("Ошибка trackTimeAspect ", e);
