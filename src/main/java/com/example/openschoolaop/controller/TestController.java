@@ -12,13 +12,14 @@ public class TestController {
     private final TestService testService;
 
     @GetMapping("trackTime")
-    public void trackTime() {
-        testService.methodRandomExecutionTime();
+    public ResponseEntity<Long> trackTime() {
+        Long methodExecTimeMillis = testService.methodRandomExecutionTime();
+        return ResponseEntity.ok(methodExecTimeMillis);
     }
 
     @GetMapping("trackAsyncTime")
     public ResponseEntity<Long> trackAsyncTime() {
-        Long l = testService.methodRandomExecutionTimeAsync();
-        return ResponseEntity.ok(l);
+        Long methodExecTimeMillis = testService.methodRandomExecutionTimeAsync();
+        return ResponseEntity.ok(methodExecTimeMillis);
     }
 }

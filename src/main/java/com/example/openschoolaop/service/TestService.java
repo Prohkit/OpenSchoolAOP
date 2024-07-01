@@ -13,7 +13,7 @@ import java.util.concurrent.ThreadLocalRandom;
 public class TestService {
 
     @TrackTime
-    public void methodRandomExecutionTime() {
+    public Long methodRandomExecutionTime() {
         Random random = new Random();
         long randomLong = random.nextLong(1000, 5000);
         try {
@@ -21,6 +21,7 @@ public class TestService {
         } catch (InterruptedException e) {
             log.error("error in methodRandomExecutionTime", e);
         }
+        return randomLong;
     }
 
     @TrackAsyncTime
