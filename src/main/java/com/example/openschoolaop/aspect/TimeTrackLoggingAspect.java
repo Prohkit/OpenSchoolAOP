@@ -1,5 +1,6 @@
 package com.example.openschoolaop.aspect;
 
+import com.example.openschoolaop.exception.TrackTimeException;
 import com.example.openschoolaop.model.dto.AddMethodExecutionTimeInfoDto;
 import com.example.openschoolaop.service.TimeTrackLoggingService;
 import lombok.extern.slf4j.Slf4j;
@@ -70,8 +71,7 @@ public class TimeTrackLoggingAspect {
             timeTrackLoggingService.saveExecutionTime(timeInfoDto);
             return object;
         } catch (Throwable e) {
-            log.error("Ошибка trackTimeAspect ", e);
+            throw new TrackTimeException("Error in TrackTimeLoggingAspect class, trackTime method");
         }
-        return null;
     }
 }

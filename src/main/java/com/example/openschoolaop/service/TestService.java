@@ -2,6 +2,7 @@ package com.example.openschoolaop.service;
 
 import com.example.openschoolaop.annotation.TrackAsyncTime;
 import com.example.openschoolaop.annotation.TrackTime;
+import com.example.openschoolaop.exception.TestMethodInterruptedException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -19,7 +20,7 @@ public class TestService {
         try {
             Thread.sleep(randomLong);
         } catch (InterruptedException e) {
-            log.error("error in methodRandomExecutionTime", e);
+            throw new TestMethodInterruptedException("methodRandomExecutionTime was interrupted");
         }
         return randomLong;
     }
@@ -30,7 +31,7 @@ public class TestService {
         try {
             Thread.sleep(randomLong);
         } catch (InterruptedException e) {
-            log.error("error in methodRandomExecutionTimeAsync", e);
+            throw new TestMethodInterruptedException("methodRandomExecutionTimeAsync was interrupted");
         }
         return randomLong;
     }
