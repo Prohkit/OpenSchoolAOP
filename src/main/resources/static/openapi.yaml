@@ -1,0 +1,395 @@
+openapi: "3.0.3"
+info:
+  title: "OpenSchoolAOP API"
+  description: "OpenSchoolAOP API"
+  version: "1.0.0"
+tags:
+  - name: TimeTrackStatisticController
+    description: Контроллер для получения статистики по времени выполнения методов
+  - name: TestController
+    description: Контроллер для проверки аннотаций @TrackTime и @TrackAsyncTime
+paths:
+  /stats/time/{className}/all:
+    get:
+      tags:
+        - TimeTrackStatisticController
+      summary: "Получить общее время выполнения методов по имени класса"
+      operationId: "getAllTimeByClassNameByInterval"
+      description: "При наличии параметров from и to поиск идет во временном промежутке"
+      parameters:
+        - name: "className"
+          in: "path"
+          required: true
+          description: "Имя класса"
+          example: "testService"
+          schema:
+            type: "string"
+        - name: "from"
+          in: "header"
+          required: false
+          description: "Начало временного интервала (необязательно)"
+          example: "2024-07-01 17:42:50"
+          schema:
+            type: "string"
+            format: "date-time"
+        - name: "to"
+          in: "header"
+          required: false
+          description: "Конец временного интервала (необязательно)"
+          example: "2024-07-01 17:44:05"
+          schema:
+            type: "string"
+            format: "date-time"
+      responses:
+        "200":
+          description: "OK: Длительность в миллисекундах"
+          content:
+            application/json:
+              schema:
+                description: "Длительность в миллисекундах"
+                type: "integer"
+                format: "int64"
+        "400":
+          description: "BAD REQUEST: Не корректный формат даты в заголовках запросов \"from\" или \"to\""
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiErrorResponse"
+  /stats/time/{className}/{methodName}/all:
+    get:
+      tags:
+        - TimeTrackStatisticController
+      summary: "Получить общее время выполнения метода по имени класса и имени метода"
+      operationId: "getAllTimeByClassNameAndMethodNameByInterval"
+      description: "При наличии параметров from и to поиск идет во временном промежутке"
+      parameters:
+        - name: "className"
+          in: "path"
+          required: true
+          description: "Имя класса"
+          example: "testService"
+          schema:
+            type: "string"
+        - name: "methodName"
+          in: "path"
+          required: true
+          description: "Имя метода"
+          example: "methodRandomExecutionTimeAsync"
+          schema:
+            type: "string"
+        - name: "from"
+          in: "header"
+          required: false
+          description: "Начало временного интервала (необязательно)"
+          example: "2024-07-01 17:42:50"
+          schema:
+            type: "string"
+            format: "date-time"
+        - name: "to"
+          in: "header"
+          required: false
+          description: "Конец временного интервала (необязательно)"
+          example: "2024-07-01 17:44:05"
+          schema:
+            type: "string"
+            format: "date-time"
+      responses:
+        "200":
+          description: "OK: Длительность в миллисекундах"
+          content:
+            application/json:
+              schema:
+                description: "Длительность в миллисекундах"
+                type: "integer"
+                format: "int64"
+        "400":
+          description: "BAD REQUEST: Не корректный формат даты в заголовках запросов \"from\" или \"to\""
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiErrorResponse"
+  /stats/time/{className}/average:
+    get:
+      tags:
+        - TimeTrackStatisticController
+      summary: "Получить среднее время выполнения методов по имени класса"
+      operationId: "getAverageTimeByClassNameByInterval"
+      description: "При наличии параметров from и to поиск идет во временном промежутке"
+      parameters:
+        - name: "className"
+          in: "path"
+          required: true
+          description: "Имя класса"
+          example: "testService"
+          schema:
+            type: "string"
+        - name: "from"
+          in: "header"
+          required: false
+          description: "Начало временного интервала (необязательно)"
+          example: "2024-07-01 17:42:50"
+          schema:
+            type: "string"
+            format: "date-time"
+        - name: "to"
+          in: "header"
+          required: false
+          description: "Конец временного интервала (необязательно)"
+          example: "2024-07-01 17:44:05"
+          schema:
+            type: "string"
+            format: "date-time"
+      responses:
+        "200":
+          description: "OK: Длительность в миллисекундах"
+          content:
+            application/json:
+              schema:
+                description: "Длительность в миллисекундах"
+                type: "integer"
+                format: "int64"
+        "400":
+          description: "BAD REQUEST: Не корректный формат даты в заголовках запросов \"from\" или \"to\""
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiErrorResponse"
+  /stats/time/{className}/{methodName}/average:
+    get:
+      tags:
+        - TimeTrackStatisticController
+      summary: "Получить среднее время выполнения метода по имени класса и имени метода"
+      operationId: "getAverageTimeByClassNameAndMethodNameByInterval"
+      description: "При наличии параметров from и to поиск идет во временном промежутке"
+      parameters:
+        - name: "className"
+          in: "path"
+          required: true
+          description: "Имя класса"
+          example: "testService"
+          schema:
+            type: "string"
+        - name: "methodName"
+          in: "path"
+          required: true
+          description: "Имя метода"
+          example: "methodRandomExecutionTimeAsync"
+          schema:
+            type: "string"
+        - name: "from"
+          in: "header"
+          required: false
+          description: "Начало временного интервала (необязательно)"
+          example: "2024-07-01 17:42:50"
+          schema:
+            type: "string"
+            format: "date-time"
+        - name: "to"
+          in: "header"
+          required: false
+          description: "Конец временного интервала (необязательно)"
+          example: "2024-07-01 17:44:05"
+          schema:
+            type: "string"
+            format: "date-time"
+      responses:
+        "200":
+          description: "OK: Длительность в миллисекундах"
+          content:
+            application/json:
+              schema:
+                description: "Длительность в миллисекундах"
+                type: "integer"
+                format: "int64"
+        "400":
+          description: "BAD REQUEST: Не корректный формат даты в заголовках запросов \"from\" или \"to\""
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiErrorResponse"
+  /stats/info/{className}:
+    get:
+      tags:
+        - TimeTrackStatisticController
+      summary: "Получить данные о времени выполнения методов"
+      operationId: "getMethodExecutionTimeInfoByInterval"
+      description: "При наличии параметров from и to поиск идет во временном промежутке"
+      parameters:
+        - name: "className"
+          in: "path"
+          required: true
+          description: "Имя класса"
+          example: "testService"
+          schema:
+            type: "string"
+        - name: "from"
+          in: "header"
+          required: false
+          description: "Начало временного интервала (необязательно)"
+          example: "2024-07-01 17:42:50"
+          schema:
+            type: "string"
+            format: "date-time"
+        - name: "to"
+          in: "header"
+          required: false
+          description: "Конец временного интервала (необязательно)"
+          example: "2024-07-01 17:44:05"
+          schema:
+            type: "string"
+            format: "date-time"
+      responses:
+        "200":
+          description: "OK: Данные о времени выполнения методов"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MethodExecutionTimeInfoResponse"
+        "400":
+          description: "BAD REQUEST: Не корректный формат даты в заголовках запросов \"from\" или \"to\""
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiErrorResponse"
+  /stats/info/{className}/{methodName}:
+    get:
+      tags:
+        - TimeTrackStatisticController
+      summary: "Получить данные о времени выполнения методов"
+      operationId: "getMethodExecutionTimeInfoByInterval"
+      description: "При наличии параметров from и to поиск идет во временном промежутке"
+      parameters:
+        - name: "className"
+          in: "path"
+          required: true
+          description: "Имя класса"
+          example: "testService"
+          schema:
+            type: "string"
+        - name: "methodName"
+          in: "path"
+          required: true
+          description: "Имя метода"
+          example: "methodRandomExecutionTimeAsync"
+          schema:
+            type: "string"
+        - name: "from"
+          in: "header"
+          required: false
+          description: "Начало временного интервала (необязательно)"
+          example: "2024-07-01 17:42:50"
+          schema:
+            type: "string"
+            format: "date-time"
+        - name: "to"
+          in: "header"
+          required: false
+          description: "Конец временного интервала (необязательно)"
+          example: "2024-07-01 17:44:05"
+          schema:
+            type: "string"
+            format: "date-time"
+      responses:
+        "200":
+          description: "OK: Данные о времени выполнения методов"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MethodExecutionTimeInfoResponse"
+        "400":
+          description: "BAD REQUEST: Не корректный формат даты в заголовках запросов \"from\" или \"to\""
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiErrorResponse"
+  /trackTime:
+    get:
+      tags:
+        - TestController
+      summary: "Эндпоинт для проверки аннотации trackTime"
+      operationId: "trackTime"
+      description: "После вызова метода в базе данных должна появиться новая запись (если AOP включен)"
+      responses:
+        "200":
+          description: "OK: Длительность выполнения метода в миллисекундах"
+          content:
+            application/json:
+              schema:
+                description: "Длительность выполнения метода в миллисекундах"
+                type: "integer"
+                format: "int64"
+        "500":
+          description: "INTERNAL SERVER ERROR: Ошибка при логировании времени выполнения (если АОП выключен, то ошибка
+          прерывания работы метода)"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiErrorResponse"
+  /trackAsyncTime:
+    get:
+      tags:
+        - TestController
+      summary: "Эндпоинт для проверки аннотации trackAsyncTime"
+      operationId: "trackAsyncTime"
+      description: "После вызова метода в базе данных должна появиться новая запись (если AOP включен)"
+      responses:
+        "200":
+          description: "OK: Длительность выполнения метода в миллисекундах"
+          content:
+            application/json:
+              schema:
+                description: "Длительность выполнения метода в миллисекундах"
+                type: "integer"
+                format: "int64"
+        "500":
+          description: "INTERNAL SERVER ERROR: Ошибка при логировании времени выполнения (если АОП выключен, то ошибка
+          прерывания работы метода)"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiErrorResponse"
+components:
+  schemas:
+    MethodExecutionTimeInfo:
+      type: "object"
+      description: "Время выполнения метода (duration)"
+      properties:
+        id:
+          type: "integer"
+          format: "int64"
+        className:
+          type: "string"
+        methodName:
+          type: "string"
+        duration:
+          type: "integer"
+          format: "int64"
+        startedAt:
+          type: "string"
+          format: "date-time"
+        finishedAt:
+          type: "string"
+          format: "date-time"
+    MethodExecutionTimeInfoResponse:
+      type: "object"
+      description: "Данные о времени выполнения методов"
+      properties:
+        infoList:
+          type: "array"
+          items:
+            $ref: "#/components/schemas/MethodExecutionTimeInfo"
+    ApiErrorResponse:
+      type: "object"
+      properties:
+        description:
+          type: "string"
+        code:
+          type: "string"
+        exceptionName:
+          type: "string"
+        exceptionMessage:
+          type: "string"
+        stacktrace:
+          type: "array"
+          items:
+            type: "string"

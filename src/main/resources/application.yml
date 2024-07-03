@@ -21,3 +21,7 @@ spring:
 asynchronous:
   #enabled: false
   enabled: true
+
+springdoc:
+  swagger-ui:
+    url: /openapi.yaml
