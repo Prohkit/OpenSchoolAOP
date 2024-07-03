@@ -22,20 +22,29 @@ public class TimeTrackStatisticService {
     private final MethodExecutionTimeInfoRepository timeInfoRepository;
 
     public Long getAllTimeByClassNameByInterval(GetExecutionTimeStatsRequest timeStatsRequest) {
-        return getMethodExecutionTimeInfoByInterval(timeStatsRequest.getClassName(), null,
-                timeStatsRequest.getFrom(), timeStatsRequest.getTo())
+        return getMethodExecutionTimeInfoByInterval(
+                timeStatsRequest.getClassName(),
+                null,
+                timeStatsRequest.getFrom(),
+                timeStatsRequest.getTo())
                 .stream().mapToLong(MethodExecutionTimeInfo::getDuration).sum();
     }
 
     public Long getAllTimeByClassNameAndMethodNameByInterval(GetExecutionTimeStatsRequest timeStatsRequest) {
-        return getMethodExecutionTimeInfoByInterval(timeStatsRequest.getClassName(),
-                timeStatsRequest.getMethodName(), timeStatsRequest.getFrom(), timeStatsRequest.getTo())
+        return getMethodExecutionTimeInfoByInterval(
+                timeStatsRequest.getClassName(),
+                timeStatsRequest.getMethodName(),
+                timeStatsRequest.getFrom(),
+                timeStatsRequest.getTo())
                 .stream().mapToLong(MethodExecutionTimeInfo::getDuration).sum();
     }
 
     public Long getAverageTimeByClassNameByInterval(GetExecutionTimeStatsRequest timeStatsRequest) {
-        OptionalDouble optionalDouble = getMethodExecutionTimeInfoByInterval(timeStatsRequest.getClassName(),
-                null, timeStatsRequest.getFrom(), timeStatsRequest.getTo())
+        OptionalDouble optionalDouble = getMethodExecutionTimeInfoByInterval(
+                timeStatsRequest.getClassName(),
+                null,
+                timeStatsRequest.getFrom(),
+                timeStatsRequest.getTo())
                 .stream().mapToLong(MethodExecutionTimeInfo::getDuration).average();
         if (optionalDouble.isPresent()) {
             return (long) optionalDouble.getAsDouble();
@@ -44,8 +53,11 @@ public class TimeTrackStatisticService {
     }
 
     public Long getAverageTimeByClassNameAndMethodNameByInterval(GetExecutionTimeStatsRequest timeStatsRequest) {
-        OptionalDouble optionalDouble = getMethodExecutionTimeInfoByInterval(timeStatsRequest.getClassName(),
-                timeStatsRequest.getMethodName(), timeStatsRequest.getFrom(), timeStatsRequest.getTo())
+        OptionalDouble optionalDouble = getMethodExecutionTimeInfoByInterval(
+                timeStatsRequest.getClassName(),
+                timeStatsRequest.getMethodName(),
+                timeStatsRequest.getFrom(),
+                timeStatsRequest.getTo())
                 .stream().mapToLong(MethodExecutionTimeInfo::getDuration).average();
         if (optionalDouble.isPresent()) {
             return (long) optionalDouble.getAsDouble();
