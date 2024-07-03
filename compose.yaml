@@ -1,19 +1,40 @@
 services:
+  open-school-aop:
+    image: open-school-aop:latest
+    build:
+      context: .
+    container_name: open-school-aop
+    depends_on:
+      - postgresql
+    ports:
+      - 8080:8080
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgresql:5432/openschoolaop
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=postgres
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+
   postgresql:
     image: postgres:16
+    container_name: postgresql
     ports:
-      - "5435:5432"
+      - 5435:5432
     environment:
       POSTGRES_DB: openschoolaop
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
+
+  liquibase-migrations:
+    image: liquibase/liquibase:4.25
+    container_name: Liquibase_container
+    depends_on:
+      - postgresql
+    command:
+      - --changelog-file=master.xml
+      - --driver=org.postgresql.Driver
+      - --url=jdbc:postgresql://postgresql:5432/openschoolaop
+      - --username=postgres
+      - --password=postgres
+      - update
     volumes:
-      - postgresql:/var/lib/postgresql/data
-    networks:
-      - backend
-
-volumes:
-  postgresql: { }
-
-networks:
-  backend: { }
+      - ./migration:/liquibase/changelog
